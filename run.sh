@@ -1,4 +1,4 @@
 #!/bin/sh
 set -eu
 cd "$(dirname "$0")"
-exec python3 src/ean8.py "$@"
+exec ./.venv/bin/python src/ean8.py "$@"
