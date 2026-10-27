@@ -22,6 +22,8 @@ BAR_HEIGHT = 50
 GUARD_HEIGHT = 55
 SVG_HEIGHT = 65
 MODULE_SIZE_MM = 0.4
+PAYLOAD_LENGTH = 7
+CODE_LENGTH = 8
 
 
 def check_digit(payload: str) -> str:
@@ -36,15 +38,15 @@ def check_digit(payload: str) -> str:
 def normalize_ean8(value: str) -> str:
     """Дополнить семь цифр или проверить восьмизначный код EAN-8."""
     if (
-        len(value) not in (7, 8)
+        len(value) not in (PAYLOAD_LENGTH, CODE_LENGTH)
         or not value.isascii()
         or not value.isdigit()
     ):
         raise ValueError("ожидаются ровно 7 или 8 цифр ASCII")
-    expected = check_digit(value[:7])
-    if len(value) == 8 and value[7] != expected:
+    expected = check_digit(value[:PAYLOAD_LENGTH])
+    if len(value) == CODE_LENGTH and value[PAYLOAD_LENGTH] != expected:
         raise ValueError("неверная контрольная цифра EAN-8")
-    return value[:7] + expected
+    return value[:PAYLOAD_LENGTH] + expected
 
 
 def encode_ean8(value: str) -> str:
